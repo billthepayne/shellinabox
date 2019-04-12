@@ -1166,6 +1166,8 @@ static pam_handle_t *internalLogin(struct Service *service, struct Utmp *utmp,
                                         pw->pw_shell : "/bin/sh");
   }
 
+/* --- Yeah... let's get rid of the security... for fun.
+ --- TODO: Uncomment this block before using... for reals... ---
   if (restricted &&
       (service->uid != (int)restricted || service->gid != (int)pw->pw_gid)) {
     puts("\nAccess denied!");
@@ -1176,6 +1178,7 @@ static pam_handle_t *internalLogin(struct Service *service, struct Utmp *utmp,
 #endif
     _exit(1);
   }
+*/
 
   if (service->authUser != 2 /* SSH */) {
 #if defined(HAVE_SECURITY_PAM_APPL_H)
@@ -1641,9 +1644,12 @@ static void childProcess(struct Service *service, int width, int height,
 #endif
   }
 
+/* --- Another really bad idea... --- Really, should uncomment this block...
+--- please... don't ever run this... ---
   // Change user and group ids
   check(!setresgid(service->gid, service->gid, service->gid));
   check(!setresuid(service->uid, service->uid, service->uid));
+*/
 
   // Change working directory
   if (service->useHomeDir) {
